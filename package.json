@@ -1,0 +1,24 @@
+{
+	"name": "grunt-funcunit",
+	"version": "0.1.0",
+	"author": "Alexis Abril <alexis@bitovi.com>",
+	"description": "Test your application with FuncUnit",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/alexisabril/grunt-funcunit.git"
+	},
+	"keywords": [
+		"funcunit"
+	],
+	"dependencies": {
+		"node-phantom": "0.1.2",
+		"promised-io": "0.3.0"
+	},
+	"devDependencies": {
+		"grunt": "0.3.15"
+	},
+	"engines": {
+		"node": ">=0.6"
+	},
+	"license": "MIT"
+}

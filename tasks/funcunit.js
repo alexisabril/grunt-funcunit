@@ -2,30 +2,27 @@ module.exports = function(grunt) {
   grunt.registerTask('funcunit', 'Test your application with FuncUnit', function() {
     this.requiresConfig('funcunit');
 
-    var funcunit = grunt.config('funcunit'),
-    steal = grunt.config('steal'),
-    os = require('os'),
-    js = os.platform() === 'win32' ? 'js.bat ' : './js ',
-    gruntDir = process.cwd(),
-    exec = require('child_process').exec,
-    done = this.async();
+    var config = grunt.config('funcunit'),
+    promise = require('promised-io/promise'),
+    path = (config.src || '') + '/funcunit/node/phantom.js',
+    funcunit = require(process.cwd() + '/' + path),
+    done = this.async(),
+    pages = [],
+    i = 0;
 
-    process.chdir(steal && steal.js || '.');
+    var test = function() {
+      return funcunit.run(config.urls[i++]);
+    };
 
-    cmd = js + 'funcunit/run ' + funcunit.path;
-    grunt.log.writeln('\nRunning: ' + cmd);
+    config.urls.forEach(function(url) {
+      pages.push(test);
+    });
 
-    exec(cmd, function(error, stdout, stderr) {
-      process.chdir(gruntDir);
-
-      if(stderr) {
-        grunt.log.error(stderr);
-        done(false);
-      }
-      else {
-        grunt.log.writeln(stdout);
-        done(true);
-      }
+    var deferred = promise.seq(pages);
+    deferred.then(function() {
+      done();
+    }, function(e) {
+      done(false);
     });
   });
 };

@@ -4,3 +4,6 @@
 [submodule "lib/steal"]
 	path = lib/steal
 	url = https://github.com/bitovi/steal
+[submodule "lib/can"]
+	path = lib/can
+	url = https://github.com/bitovi/canjs
